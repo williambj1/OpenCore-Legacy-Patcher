@@ -39,6 +39,7 @@ jobs:
         id: cp311
         with:
           python-version: '3.11'
+          cache: 'pip'
 
       - run: file "$(which python3)"
 
