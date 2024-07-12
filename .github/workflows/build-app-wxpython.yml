@@ -62,38 +62,41 @@ jobs:
           python3 -m pip download --platform macosx_10_9_universal2 --only-binary=:all: charset-normalizer
           python3 -m pip install charset_normalizer-*-macosx_10_9_universal2.whl
 
-      - name: Prepare Assets (--prepare-assets)
-        run: >
-          python3 Build-Project.command
-          --run-as-individual-steps --reset-dmg-cache
-          --prepare-assets
+      - name: Build
+        run: python3 Build-Project.command
 
-      - name: Prepare Application (--prepare-application)
-        run: >
-          python3 Build-Project.command
-          # --application-signing-identity "${{ env.ORG_MAC_DEVELOPER_ID_APPLICATION_IDENTITY }}"
-          # --notarization-apple-id "${{ env.ORG_MAC_NOTARIZATION_APPLE_ID }}" --notarization-password "${{ env.ORG_MAC_NOTARIZATION_PASSWORD }}" --notarization-team-id "${{ env.ORG_MAC_NOTARIZATION_TEAM_ID }}"
-          --git-branch "${{ env.branch }}" --git-commit-url "${{ env.commiturl }}" --git-commit-date "${{ env.commitdate }}"
-          # --analytics-key "${{ env.ANALYTICS_KEY }}" --analytics-endpoint "${{ env.ANALYTICS_SITE }}"
-          --reset-pyinstaller-cache
-          --run-as-individual-steps
-          --prepare-application
+      # - name: Prepare Assets (--prepare-assets)
+      #   run: >
+      #     python3 Build-Project.command
+      #     --run-as-individual-steps --reset-dmg-cache
+      #     --prepare-assets
 
-      - name: Prepare Package (--prepare-package)
-        run: >
-          python3 Build-Project.command
-          # --installer-signing-identity "${{ env.ORG_MAC_DEVELOPER_ID_INSTALLER_IDENTITY }}"
-          # --notarization-apple-id "${{ env.ORG_MAC_NOTARIZATION_APPLE_ID }}" --notarization-password "${{ env.ORG_MAC_NOTARIZATION_PASSWORD }}" --notarization-team-id "${{ env.ORG_MAC_NOTARIZATION_TEAM_ID }}"
-          --run-as-individual-steps
-          --prepare-package
+      # - name: Prepare Application (--prepare-application)
+      #   run: >
+      #     python3 Build-Project.command
+      #     # --application-signing-identity "${{ env.ORG_MAC_DEVELOPER_ID_APPLICATION_IDENTITY }}"
+      #     # --notarization-apple-id "${{ env.ORG_MAC_NOTARIZATION_APPLE_ID }}" --notarization-password "${{ env.ORG_MAC_NOTARIZATION_PASSWORD }}" --notarization-team-id "${{ env.ORG_MAC_NOTARIZATION_TEAM_ID }}"
+      #     --git-branch "${{ env.branch }}" --git-commit-url "${{ env.commiturl }}" --git-commit-date "${{ env.commitdate }}"
+      #     # --analytics-key "${{ env.ANALYTICS_KEY }}" --analytics-endpoint "${{ env.ANALYTICS_SITE }}"
+      #     --reset-pyinstaller-cache
+      #     --run-as-individual-steps
+      #     --prepare-application
 
-      - name: Prepare Update Shim (--prepare-shim)
-        run: >
-          python3 Build-Project.command
-          # --application-signing-identity "${{ env.ORG_MAC_DEVELOPER_ID_APPLICATION_IDENTITY }}"
-          # --notarization-apple-id "${{ env.ORG_MAC_NOTARIZATION_APPLE_ID }}" --notarization-password "${{ env.ORG_MAC_NOTARIZATION_PASSWORD }}" --notarization-team-id "${{ env.ORG_MAC_NOTARIZATION_TEAM_ID }}"
-          --run-as-individual-steps
-          --prepare-shim
+      # - name: Prepare Package (--prepare-package)
+      #   run: >
+      #     python3 Build-Project.command
+      #     # --installer-signing-identity "${{ env.ORG_MAC_DEVELOPER_ID_INSTALLER_IDENTITY }}"
+      #     # --notarization-apple-id "${{ env.ORG_MAC_NOTARIZATION_APPLE_ID }}" --notarization-password "${{ env.ORG_MAC_NOTARIZATION_PASSWORD }}" --notarization-team-id "${{ env.ORG_MAC_NOTARIZATION_TEAM_ID }}"
+      #     --run-as-individual-steps
+      #     --prepare-package
+
+      # - name: Prepare Update Shim (--prepare-shim)
+      #   run: >
+      #     python3 Build-Project.command
+      #     # --application-signing-identity "${{ env.ORG_MAC_DEVELOPER_ID_APPLICATION_IDENTITY }}"
+      #     # --notarization-apple-id "${{ env.ORG_MAC_NOTARIZATION_APPLE_ID }}" --notarization-password "${{ env.ORG_MAC_NOTARIZATION_PASSWORD }}" --notarization-team-id "${{ env.ORG_MAC_NOTARIZATION_TEAM_ID }}"
+      #     --run-as-individual-steps
+      #     --prepare-shim
 
       - name: Prepare App for Upload
         run: /bin/mv ./dist/OpenCore-Patcher.app.zip ./OpenCore-Patcher-GUI.app.zip
@@ -104,56 +107,56 @@ jobs:
           name: OpenCore-Patcher.app (GUI)
           path: OpenCore-Patcher-GUI.app.zip
 
-      - name: Upload AutoPkg Package to Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: AutoPkg-Assets.pkg
-          path: ./dist/AutoPkg-Assets.pkg
+      # - name: Upload AutoPkg Package to Artifacts
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: AutoPkg-Assets.pkg
+      #     path: ./dist/AutoPkg-Assets.pkg
 
-      - name: Upload Installation Package to Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: OpenCore-Patcher.pkg
-          path: ./dist/OpenCore-Patcher.pkg
+      # - name: Upload Installation Package to Artifacts
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: OpenCore-Patcher.pkg
+      #     path: ./dist/OpenCore-Patcher.pkg
 
-      - name: Upload Uninstaller Package to Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: OpenCore-Patcher-Uninstaller.pkg
-          path: ./dist/OpenCore-Patcher-Uninstaller.pkg
+      # - name: Upload Uninstaller Package to Artifacts
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: OpenCore-Patcher-Uninstaller.pkg
+      #     path: ./dist/OpenCore-Patcher-Uninstaller.pkg
 
-      - name: Upload Binary to Release
-        if: github.event_name == 'release'
-        uses: svenstaro/upload-release-action@e74ff71f7d8a4c4745b560a485cc5fdb9b5b999d
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: OpenCore-Patcher-GUI.app.zip
-          tag: ${{ github.ref }}
-          file_glob: true
+      # - name: Upload Binary to Release
+      #   if: github.event_name == 'release'
+      #   uses: svenstaro/upload-release-action@e74ff71f7d8a4c4745b560a485cc5fdb9b5b999d
+      #   with:
+      #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+      #     file: OpenCore-Patcher-GUI.app.zip
+      #     tag: ${{ github.ref }}
+      #     file_glob: true
 
-      - name: Upload AutoPkg Package to Release
-        if: github.event_name == 'release'
-        uses: svenstaro/upload-release-action@e74ff71f7d8a4c4745b560a485cc5fdb9b5b999d
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./dist/AutoPkg-Assets.pkg
-          tag: ${{ github.ref }}
-          file_glob: true
+      # - name: Upload AutoPkg Package to Release
+      #   if: github.event_name == 'release'
+      #   uses: svenstaro/upload-release-action@e74ff71f7d8a4c4745b560a485cc5fdb9b5b999d
+      #   with:
+      #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+      #     file: ./dist/AutoPkg-Assets.pkg
+      #     tag: ${{ github.ref }}
+      #     file_glob: true
 
-      - name: Upload Installation Package to Release
-        if: github.event_name == 'release'
-        uses: svenstaro/upload-release-action@e74ff71f7d8a4c4745b560a485cc5fdb9b5b999d
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./dist/OpenCore-Patcher.pkg
-          tag: ${{ github.ref }}
-          file_glob: true
+      # - name: Upload Installation Package to Release
+      #   if: github.event_name == 'release'
+      #   uses: svenstaro/upload-release-action@e74ff71f7d8a4c4745b560a485cc5fdb9b5b999d
+      #   with:
+      #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+      #     file: ./dist/OpenCore-Patcher.pkg
+      #     tag: ${{ github.ref }}
+      #     file_glob: true
 
-      - name: Upload Uninstaller Package to Release
-        if: github.event_name == 'release'
-        uses: svenstaro/upload-release-action@e74ff71f7d8a4c4745b560a485cc5fdb9b5b999d
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./dist/OpenCore-Patcher-Uninstaller.pkg
-          tag: ${{ github.ref }}
-          file_glob: true
+      # - name: Upload Uninstaller Package to Release
+      #   if: github.event_name == 'release'
+      #   uses: svenstaro/upload-release-action@e74ff71f7d8a4c4745b560a485cc5fdb9b5b999d
+      #   with:
+      #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+      #     file: ./dist/OpenCore-Patcher-Uninstaller.pkg
+      #     tag: ${{ github.ref }}
+      #     file_glob: true
