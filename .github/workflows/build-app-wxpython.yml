@@ -38,6 +38,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          cache: 'pip'
 
       - run: file "$(which python3)"
 
@@ -101,6 +102,7 @@ jobs:
       - name: Prepare App for Upload
         run: >
           cd dist
+          ls
           zip -r OpenCore-Patcher.app.zip OpenCore-Patcher.app
           cd ..
           mv ./dist/OpenCore-Patcher.app.zip ./OpenCore-Patcher-GUI.app.zip
