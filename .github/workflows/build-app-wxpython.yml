@@ -39,7 +39,6 @@ jobs:
         id: cp311
         with:
           python-version: '3.11'
-          cache: 'pip'
 
       - run: file "$(which python3)"
 
@@ -56,11 +55,9 @@ jobs:
       #     p12-password: ${{ secrets.ORG_MAC_DEVELOPER_ID_INSTALLER_CERT_P12_PASSWORD }}
 
       - name: Install Dependencies
-        if: ${{ steps.cp311.outputs.cache-hit != 'true' }}
         run: python3 -m pip install -r requirements.txt
 
       - name: Force Universal2 charset for Python
-        if: ${{ steps.cp311.outputs.cache-hit != 'true' }}
         run: |
           python3 -m pip uninstall -y charset_normalizer
           python3 -m pip download --platform macosx_10_9_universal2 --only-binary=:all: charset-normalizer
