@@ -178,6 +178,15 @@ class GenerateDefaults:
                 )
             ):
                 is_modern_wifi = True
+            elif (
+                (
+                    isinstance(self.constants.computer.wifi, device_probe.IntelWireless) and
+                    self.constants.computer.wifi.chipset in [
+                        device_probe.IntelWireless.Chipsets.IntelWirelessNIC,
+                    ]
+                )
+            ):
+                is_modern_wifi = True
 
         else:
             print("Checking WiFi")
@@ -199,6 +208,15 @@ class GenerateDefaults:
             ):
                 print("Modern WiFi")
                 is_modern_wifi = True
+            elif (
+                    smbios_data.smbios_dictionary[self.model]["Wireless Model"] in [
+                    device_probe.IntelWireless.Chipsets.IntelWirelessNIC,
+                ]
+            ):
+                print("Modern WiFi")
+                is_modern_wifi = True
+
+        print(is_modern_wifi)
 
         if is_legacy_wifi is False and is_modern_wifi is False:
             return
