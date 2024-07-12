@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: Build wxPython
-    runs-on: x86_64_monterey
+    runs-on: macos-13
 
     env:
       # GitHub Information
@@ -34,6 +34,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - run: file "$(which python3)"
 
       # - name: Import Application Signing Certificate
       #   uses: dhinakg/import-codesign-certs@master
