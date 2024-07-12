@@ -65,7 +65,11 @@ jobs:
           python3 -m pip install charset_normalizer-*-macosx_10_9_universal2.whl
 
       - name: Build
-        run: python3 Build-Project.command
+        run: |
+          cd ci_tooling/privileged_helper_tool
+          make debug
+          cd -
+          python3 Build-Project.command
 
       # - name: Prepare Assets (--prepare-assets)
       #   run: >
