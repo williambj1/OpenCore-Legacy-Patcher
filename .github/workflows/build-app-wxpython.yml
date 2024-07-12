@@ -99,7 +99,11 @@ jobs:
       #     --prepare-shim
 
       - name: Prepare App for Upload
-        run: /bin/mv ./dist/OpenCore-Patcher.app.zip ./OpenCore-Patcher-GUI.app.zip
+        run: >
+          cd dist
+          zip -r OpenCore-Patcher.app.zip OpenCore-Patcher.app
+          cd ..
+          mv ./dist/OpenCore-Patcher.app.zip ./OpenCore-Patcher-GUI.app.zip
 
       - name: Upload App to Artifacts
         uses: actions/upload-artifact@v4
